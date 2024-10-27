@@ -1,6 +1,8 @@
 package listener
 
 import (
+	"strings"
+
 	"github.com/golibs-starter/golib/config"
 	"github.com/golibs-starter/golib/log"
 	"github.com/golibs-starter/golib/log/field"
@@ -9,12 +11,16 @@ import (
 	"github.com/golibs-starter/golib/web/event"
 	webLog "github.com/golibs-starter/golib/web/log"
 	"github.com/golibs-starter/golib/web/properties"
-	"strings"
 )
 
 type RequestCompletedLogListener struct {
 	appProps         *config.AppProperties
 	httpRequestProps *properties.HttpRequestLogProperties
+}
+
+// RegisterHandler implements pubsub.Subscriber.
+func (r *RequestCompletedLogListener) RegisterHandler(topicName string, handler any) {
+	panic("unimplemented")
 }
 
 func NewRequestCompletedLogListener(

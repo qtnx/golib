@@ -7,4 +7,7 @@ type Subscriber interface {
 
 	// Handle a supported Event that indicated by the Supports function.
 	Handle(event Event)
+
+	// Register a handler for a specific topic
+	RegisterHandler(topicName string, handler any)
 }
