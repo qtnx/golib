@@ -31,7 +31,7 @@ func Publish(event Event) {
 }
 
 // PublishEvent is a helper function to publish a message as an event directly.
-func PublishEvent[T interface{ struct{} }](ctx context.Context, msg T) {
+func PublishEvent[T any](ctx context.Context, msg T) {
 	Publish(MessageEvent[T]{
 		AbstractEvent: event.NewAbstractEvent(ctx, reflect.TypeOf(msg).Name()),
 		PayloadData:   msg,
@@ -39,7 +39,7 @@ func PublishEvent[T interface{ struct{} }](ctx context.Context, msg T) {
 }
 
 // PublishEventWithAbstractEvent is a helper function to publish a message as an event directly.
-func PublishEventWithAbstractEvent[T interface{ struct{} }](ctx context.Context, abstractEvent *event.AbstractEvent, msg T) {
+func PublishEventWithAbstractEvent[T any](ctx context.Context, abstractEvent *event.AbstractEvent, msg T) {
 	Publish(MessageEvent[T]{
 		AbstractEvent: abstractEvent,
 		PayloadData:   msg,
