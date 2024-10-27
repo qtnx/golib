@@ -13,4 +13,7 @@ type EventBus interface {
 
 	// Stop the bus
 	Stop()
+
+	// IsRunning returns whether the bus is running
+	IsRunning() bool
 }

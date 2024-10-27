@@ -1,5 +1,7 @@
 package pubsub
 
+import "fmt"
+
 type DefaultPublisher struct {
 	bus                    EventBus
 	debugLog               DebugLog
@@ -18,6 +20,10 @@ func NewDefaultPublisher(bus EventBus, opts ...PublisherOpt) *DefaultPublisher {
 }
 
 func (p *DefaultPublisher) Publish(event Event) {
+	if !p.bus.IsRunning() {
+		fmt.Printf("WARN: Event bus is not running, event [%s] was ignored. Please add golib.EventOpt() to your bootstrap\n", event.Name())
+		return
+	}
 	p.bus.Deliver(event)
 	if p.notLogPayloadForEvents != nil && p.notLogPayloadForEvents[event.Name()] {
 		p.debugLog(event.Context(), "Event [%s] was fired with id [%s]", event.Name(), event.Identifier())

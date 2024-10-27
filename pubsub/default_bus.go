@@ -2,12 +2,14 @@ package pubsub
 
 import (
 	"context"
+	"sync"
+
 	"github.com/golibs-starter/golib/pubsub/executor"
 	"github.com/golibs-starter/golib/utils"
-	"sync"
 )
 
 type DefaultEventBus struct {
+	isRunning   bool
 	debugLog    DebugLog
 	subscribers map[string]Subscriber
 	eventChSize int
@@ -82,6 +84,7 @@ func (b *DefaultEventBus) Run() {
 		}
 	}()
 	b.debugLog(context.Background(), "Default event bus is started")
+	b.isRunning = true
 }
 
 func (b *DefaultEventBus) Stop() {
@@ -98,4 +101,9 @@ func (b *DefaultEventBus) Stop() {
 	}()
 	b.wg.Wait()
 	b.debugLog(context.Background(), "Default event bus is stopped")
+	b.isRunning = false
+}
+
+func (b *DefaultEventBus) IsRunning() bool {
+	return b.isRunning
 }
